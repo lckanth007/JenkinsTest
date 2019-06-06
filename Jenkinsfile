@@ -1,10 +1,28 @@
 pipeline {
-  agent any
-  stages {
-    stage('error') {
-      steps {
-        build(propagate: true, job: 'test', quietPeriod: 15, wait: true)
-      }
+    agent any
+
+    stages {
+
+        stage('Compile') {
+            steps {
+                echo "Compiling..."
+                sh "/usr/local/bin/sbt compile"
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo "Testing..."
+                sh "/usr/local/bin/sbt test"
+            }
+        }
+
+        stage('Package') {
+            steps {
+                echo "Packaging..."
+                sh "/usr/local/bin/sbt package"
+            }
+        }
+
     }
-  }
 }
